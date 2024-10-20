@@ -10,6 +10,8 @@ class Hand:
             a list of the cards held by the hand
         size (int):
             a number representing the number of cards in the hand
+        value (int):
+            a number representing the value of the hand
     """
 
     def __init__(self, cards: list[Card] | None = None) -> None:
