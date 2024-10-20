@@ -57,7 +57,8 @@ class Person:
         Returns
         -------
         list[Card] | None:
-            A list of `Card` objects after being removed from the person's hand.
+            A list of `Card` objects after being removed from the person's hand,
+                or `None` if hand is empty.
         """
         cards: list[Card] = self.hand.cards
         self.hand.clear_hand()
@@ -70,7 +71,6 @@ def main() -> None:
     deck.shuffle_deck()
     person = Person(Hand(cards=deck.deal_cards(num_cards=5)))
     print(person)
-    person.get_card(deck)
     print(person)
 
 
