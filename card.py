@@ -1,9 +1,11 @@
 class Card:
     """A single playing card.
 
-    Attributes:
-        value (int): (read only)
-            a number representing the value of the card (equal to the value of the rank, suit is not taken into account)
+    Attributes
+    ----------
+    value: int
+        (read only)
+            A number representing the value of the card (equal to the value of the rank, suit is not taken into account).
     """
 
     ranks = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"]
@@ -11,13 +13,14 @@ class Card:
 
     def __init__(self, suit: int | str, rank: int) -> None:
         """
-        Args:
-            suit (int | str):
-                a number or string representing the suit of the card
-                    (♠: "spade" | 1, ♣: "club" | 2, ❤: "heart" | 3, ♦: "diamond" | 4)
-            rank (int):
-                a number representing the rank of the card
-                    (A: 1, J:11, Q: 12, K: 13)
+        Parameters
+        ----------
+        suit: int | str
+            A number or string representing the suit of the card.
+                (♠: "spade" | 1, ♣: "club" | 2, ❤: "heart" | 3, ♦: "diamond" | 4)
+        rank: int
+            A number representing the rank of the card.
+                (A: 1, J:11, Q: 12, K: 13)
         """
         if type(suit) == str:
             self._suit: int = ["spade", "club", "heart", "diamond"].index(suit.lower())
@@ -28,6 +31,7 @@ class Card:
 
     @property
     def value(self) -> int:
+        """The value of the playing card."""
         return self._rank + 1
 
     def __str__(self) -> str:

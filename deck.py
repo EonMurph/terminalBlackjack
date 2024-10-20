@@ -5,16 +5,19 @@ from random import shuffle
 class Deck:
     """A deck of cards.
 
-    Attributes:
-        length (int): (read only)
-            a number representing the length of the deck
-    Methods:
-        shuffle_deck:
-            shuffle the deck of cards
-        deal_cards(num_cards : int = 1) -> (list[Card] | None):
-            deals the top N cards in the deck
-        add_to_deck(card: Card | cards: list[Card])"
-            add a single card or list of cards to the deck
+    Attributes
+    ----------
+    size : int
+        A number representing the amount of cards in the deck.
+
+    Methods
+    -------
+    shuffle_deck:
+        Shuffle the deck of cards.
+    deal_cards(num_cards: int = 1) -> list[Card] | None:
+        Deals a specified number of cards from the deck.
+    add_to_deck(cards: list[Card] | Card):
+        Add a single card or list of cards to the deck.
     """
 
     def __init__(self) -> None:
@@ -22,7 +25,9 @@ class Deck:
             Card(suit=suit, rank=rank) for suit in range(1, 5) for rank in range(1, 14)
         ]
 
-    def length(self) -> int:
+    @property
+    def size(self) -> int:
+        """The number of cards in the deck."""
         return len(self._deck)
 
     def __str__(self) -> str:
@@ -38,11 +43,18 @@ class Deck:
     def deal_cards(self, num_cards: int = 1) -> list[Card] | None:
         """Remove and return the top N (defaults to 1) card(s) in the deck.
 
-        If no cards left in the deck returns None.
+        If there are no cards left in the deck returns None.
 
-        Args:
-            num_cards (int) = 1:
-                the number of cards to add
+        Parameters
+        ----------
+        num_cards: int, optional
+            (default: 1)
+                The number of cards to add.
+
+        Returns
+        -------
+        list[Card] | None:
+            A list of `Card` objects if cards are available, otherwise `None`.
         """
         if len(self._deck) == 0:
             return None
@@ -51,22 +63,17 @@ class Deck:
             return_cards.append(self._deck.pop())
         return return_cards
 
-    def add_to_deck(
-        self, card: Card | None = None, cards: list[Card] | None = None
-    ) -> None:
+    def add_to_deck(self, cards: list[Card] | Card) -> None:
         """Add a card or set of cards to the deck.
 
-        Args:
-            card (Card | None) = None:
-                a Card object to be added to the deck
-            cards (list[Card] | None) = None:
-                a list of Card objects to be added to the deck
-
-            Use one or the other in a single function call.
+        Parameters
+        ----------
+        cards: list[Card], Card
+            A list of `Card` objects, or just a single `Card`, to be added to the deck.
         """
-        if card is not None:
-            self._deck.append(card)
-        if cards is not None:
+        if type(cards) == Card:
+            self._deck.append(cards)
+        elif type(cards) == list[Card]:
             self._deck += cards
 
 
