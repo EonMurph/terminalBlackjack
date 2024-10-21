@@ -5,7 +5,7 @@ class Card:
     ----------
     value: int
         (read only)
-            A number representing the value of the card (equal to the value of the rank, suit is not taken into account).
+            A number representing the value of the card (equal to the value of the rank but capped at 10, suit is not taken into account).
     """
 
     ranks = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"]
@@ -32,7 +32,7 @@ class Card:
     @property
     def value(self) -> int:
         """The value of the playing card."""
-        return self._rank + 1
+        return min(self._rank + 1, 10)
 
     def __str__(self) -> str:
         return f"{Card.ranks[self._rank]}{Card.suits[self._suit]}"
