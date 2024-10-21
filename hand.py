@@ -16,8 +16,8 @@ class Hand:
 
     Methods
     -------
-    add_to_hand(card: Card *OR* cards: list[Card]):
-        Add a single card or list of cards to the hand.
+    add_to_hand(card: Card):
+        Add a single card to the hand.
     clear_hand:
         Clear the current hand of all cards.
     """
@@ -27,7 +27,9 @@ class Hand:
         Parameters
         ----------
         cards: list[Card], optional
-            (default None) The cards held in the hand."""
+            (default None) The cards held in the hand.<br>
+                (This is only supposed to be supplied during tests.)
+        """
         if cards is not None:
             self.cards: list[Card] = cards
         else:
@@ -50,18 +52,15 @@ class Hand:
             return "The hand is empty."
         return hand_string
 
-    def add_to_hand(self, cards: list[Card] | Card) -> None:
-        """Add a card or list of cards to the hand.
+    def add_to_hand(self, card: Card) -> None:
+        """Add a card to the hand.
 
         Parameters
         ----------
-        cards: (list[Card] | Card)
-            The list of `Card` objects, or a just a single `Card`, to add to the hand.
+        cards: Card
+            The `Card` object to add to the hand.
         """
-        if type(cards) == Card:
-            self.cards.append(cards)
-        elif type(cards) == list[Card]:
-            self.cards += cards
+        self.cards.append(card)
 
     def clear_hand(self) -> None:
         """Remove and return all the cards from the hand."""
@@ -70,7 +69,8 @@ class Hand:
 
 def main() -> None:
     deck = Deck()
-    hand = Hand(cards=deck.deal_cards(num_cards=5))
+    cards = [deck.deal_card() for _ in range(4)]
+    hand = Hand(cards=cards) # type: ignore
     print(hand)
     print(hand.value)
 

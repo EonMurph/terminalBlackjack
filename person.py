@@ -18,7 +18,7 @@ class Person:
 
     Methods
     -------
-        get_card(deck: Deck, num_cards: int = 1):
+        get_card(deck: Deck):
             Get a card from the deck and add it to the hand.
         clear_hand -> list[Card] | None:
             Remove and return all the cards in the current hand.
@@ -69,8 +69,7 @@ class Person:
 def main() -> None:
     deck = Deck()
     deck.shuffle_deck()
-    person = Person(Hand(cards=deck.deal_cards(num_cards=5)))
-    print(person)
+    person = Person(Hand(cards=[deck.deal_card() for _ in range(5)]))  # type: ignore
     print(person)
 
 

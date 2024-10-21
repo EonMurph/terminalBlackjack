@@ -14,10 +14,10 @@ class Deck:
     -------
     shuffle_deck:
         Shuffle the deck of cards.
-    deal_cards(num_cards: int = 1) -> list[Card] | None:
+    deal_card() -> Card | None:
         Deals a specified number of cards from the deck.
-    add_to_deck(cards: list[Card] | Card):
-        Add a single card or list of cards to the deck.
+    add_to_deck(card: list[Card]):
+        Add a list of cards to the deck.
     """
 
     def __init__(self) -> None:
@@ -40,16 +40,10 @@ class Deck:
         """Shuffle the deck of cards."""
         shuffle(self._deck)
 
-    def deal_cards(self, num_cards: int = 1) -> list[Card] | None:
-        """Remove and return the top N (defaults to 1) card(s) in the deck.
+    def deal_card(self) -> Card | None:
+        """Remove and return the top card in the deck.
 
         If there are no cards left in the deck returns None.
-
-        Parameters
-        ----------
-        num_cards: int, optional
-            (default: 1)
-                The number of cards to add.
 
         Returns
         -------
@@ -57,24 +51,19 @@ class Deck:
             A list of `Card` objects if cards are available, otherwise `None`.
         """
         if len(self._deck) == 0:
+            print("The deck is empty.")
             return None
-        return_cards = []
-        for _ in range(num_cards):
-            return_cards.append(self._deck.pop())
-        return return_cards
+        return self._deck.pop()
 
-    def add_to_deck(self, cards: list[Card] | Card) -> None:
-        """Add a card or set of cards to the deck.
+    def add_to_deck(self, cards: list[Card]) -> None:
+        """Add a list of cards to the deck.
 
         Parameters
         ----------
-        cards: list[Card], Card
-            A list of `Card` objects, or just a single `Card`, to be added to the deck.
+        cards: list[Card]
+            A list of `Card` objects to be added to the deck.
         """
-        if type(cards) == Card:
-            self._deck.append(cards)
-        elif type(cards) == list[Card]:
-            self._deck += cards
+        self._deck += cards
 
 
 def main() -> None:
