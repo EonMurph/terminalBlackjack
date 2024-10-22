@@ -18,13 +18,12 @@ class Person:
 
     Methods
     -------
-        get_card(deck: Deck):
-            Get a `Card` object from the deck and add it to the hand.
         clear_hand -> list[Card] | None:
             Remove and return all the cards in the current hand.
         add_to_hand(card: Card):
             Add a `Card` object to the hand.
-
+        reset:
+            Reset the instance of the :class:`Person` class.
     """
 
     def __init__(self, hand: Hand | None = None) -> None:
@@ -36,7 +35,7 @@ class Person:
                 The hand the person holds.
 
         .. Note::
-         Arg `hand` is only intended to be supplied during testing.
+            Arg `hand` is only intended to be supplied during testing.
         """
         if hand is not None:
             self._hand: Hand = hand
@@ -72,7 +71,7 @@ class Person:
         return cards
 
     def add_to_hand(self, card: Card) -> None:
-        """Add cards to the hand.
+        """Add a `Card` object to the hand.
 
         Parameters
         ----------
@@ -81,8 +80,9 @@ class Person:
         """
 
         self._hand.add_to_hand(card)
-    
+
     def reset(self) -> None:
+        """Reset the instance of the :class:`Person` class."""
         self.in_play = True
 
 

@@ -1,10 +1,16 @@
 from dealer import Dealer
 from player import Player
 from deck import Deck
-from os import system
 
 
 def round_over() -> bool:
+    """Process the end of the round.
+
+    Returns
+    -------
+    bool:
+        Whether or not to play another round.
+    """
     keep_playing = input("Keep playing (y/n): ")
     match keep_playing.lower():
         case "y" | "yes":
@@ -22,7 +28,22 @@ def round_over() -> bool:
     return playing
 
 
+def clear_screen():
+    """Print empty strings to apply spacing between turns."""
+    for _ in range(4):
+        print()
+
+
 def reset_round(player: Player, dealer: Dealer) -> None:
+    """Reset all round related data.
+
+    Parameters
+    ----------
+    player: Player
+        The instance of :class:`Player` in the game.
+    dealer: Dealer
+        The instance of :class:`Dealer` in the game.
+    """
     player_hand = player.clear_hand()
     if player_hand is not None:
         dealer.add_to_deck(player_hand)
@@ -38,11 +59,34 @@ def reset_round(player: Player, dealer: Dealer) -> None:
 
 
 def start_round(player: Player, dealer: Dealer) -> None:
+    """Call necessary functions for starting a round.
+
+    Parameters
+    ----------
+    player: Player
+        The instance of :class:`Player` in the game.
+    dealer: Dealer
+        The instance of :class:`Dealer` in the game.
+    """
     reset_round(player, dealer)
-    system("clear")
+    clear_screen()
 
 
 def check_round_over(player: Player, dealer: Dealer) -> bool:
+    """Check if a round is over.
+
+    Parameters
+    ----------
+    player: Player
+        The instance of :class:`Player` in the game.
+    dealer: Dealer
+        The instance of :class:`Dealer` in the game.
+
+    Returns
+    -------
+    bool:
+        Whether or not a round is over.
+    """
     print(player)
     print(dealer)
 
@@ -70,6 +114,7 @@ def check_round_over(player: Player, dealer: Dealer) -> bool:
 
 
 def game_loop() -> None:
+    """Process the main game loop."""
     dealer = Dealer(deck=Deck())
     dealer.shuffle_cards()
     player = Player(dealer=dealer)
@@ -77,14 +122,14 @@ def game_loop() -> None:
     start_round(player, dealer)
 
     while playing:
-        system("clear")
+        clear_screen()
 
         print(player)
         print(dealer)
         print()
         player.take_turn()
         dealer.take_turn()
-        system("clear")
+        clear_screen()
 
         is_round_over = check_round_over(player, dealer)
         print()

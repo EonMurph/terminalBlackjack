@@ -19,7 +19,7 @@ class Hand:
     add_to_hand(card: Card):
         Add a single card to the hand.
     clear_hand:
-        Clear the current hand of all cards.
+        Remove and return all the cards from the hand.
     """
 
     def __init__(self, cards: list[Card] | None = None) -> None:
@@ -28,7 +28,9 @@ class Hand:
         ----------
         cards: list[Card], optional
             (default None) The cards held in the hand.<br>
-                (This is only supposed to be supplied during tests.)
+
+        .. Note::
+            Param `hand` is only intended to be supplied during tests.
         """
         if cards is not None:
             self.cards: list[Card] = cards
@@ -70,7 +72,7 @@ class Hand:
 def main() -> None:
     deck = Deck()
     cards = [deck.deal_card() for _ in range(4)]
-    hand = Hand(cards=cards) # type: ignore
+    hand = Hand(cards=cards)  # type: ignore
     print(hand)
     print(hand.value)
 

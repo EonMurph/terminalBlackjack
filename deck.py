@@ -15,7 +15,7 @@ class Deck:
     shuffle_deck:
         Shuffle the deck of cards.
     deal_card() -> Card | None:
-        Deals a specified number of cards from the deck.
+        Remove and return the top card in the deck.
     add_to_deck(card: list[Card]):
         Add a list of cards to the deck.
     """
@@ -47,8 +47,8 @@ class Deck:
 
         Returns
         -------
-        list[Card] | None:
-            A list of `Card` objects if cards are available, otherwise `None`.
+        Card:
+            A `Card` object, if cards are available, otherwise `None`.
         """
         if len(self._deck) == 0:
             print("The deck is empty.")

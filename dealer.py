@@ -11,17 +11,20 @@ class Dealer(Person):
 
     Methods
     -------
-        get_card -> Card:
-            Get a card from the deck and add it to the hand.
         deal_card(person: Person):
-            Deal cards from the deck.
+            Deal a card from the deck.
         shuffle_cards:
-            Shuffle the cards in the deck.
+            Shuffle the deck of cards.
         add_to_deck(cards: list[Card]):
             Add a list of `Card` object to the deck.
+        take_turn:
+            Process the dealer's turn.
+        reset:
+            Reset the instance of the :class:`Dealer` class.
 
     .. Note::
         Inherits methods and attributes from :class:`Person`.
+        Overrides :class:`Person`'s `reset` method.
     """
 
     def __init__(self, deck: Deck, hand: Hand | None = None) -> None:
@@ -39,8 +42,8 @@ class Dealer(Person):
     def __str__(self) -> str:
         return "Dealer -> " + super().__str__()
 
-    def get_card(self) -> Card | None:
-        """Get a card from the deck and add it to the hand.
+    def _get_card(self) -> Card | None:
+        """Get and return a card from the deck.
 
         Returns
         -------
@@ -54,14 +57,14 @@ class Dealer(Person):
         return cards
 
     def deal_card(self, person: Person) -> None:
-        """Deal cards from the deck.
+        """Deal a card from the deck.
 
         Parameters
         ----------
-        hand: Hand
-            The hand to which the cards will be dealt.
+        person: Person
+            The instance of `Player | Dealer` that the card will be added to.
         """
-        card = self.get_card()
+        card = self._get_card()
         if card is None:
             print("The deck is empty.")
             return None
@@ -77,6 +80,11 @@ class Dealer(Person):
 
         Usually these cards will be taken from a `Person`'s hand.
 
+        Parameters
+        ----------
+        cards: list[Card]
+            The list of `Card` objects to add to the deck.
+
         Examples
         --------
         >>> player = Player(hand=Hand(deck.deal_cards(5)))
@@ -88,14 +96,16 @@ class Dealer(Person):
         >>>     print("No cards in the player's hand.")
         """
         self._deck.add_to_deck(cards=cards)
-    
+
     def take_turn(self) -> None:
+        """Process the dealer's turn."""
         if self.tally >= 17:
             self.in_play = False
         else:
             self.deal_card(person=self)
-    
+
     def reset(self) -> None:
+        """Reset the instance of the :class:`Dealer` class."""
         super().reset()
         cards = self.clear_hand()
         if cards is not None:
@@ -107,7 +117,6 @@ def main() -> None:
     dealer = Dealer(deck=deck, hand=Hand([deck.deal_card() for _ in range(5)]))  # type: ignore
     print(dealer)
     dealer.shuffle_cards()
-    dealer.get_card()
     dealer2 = Dealer(deck=deck, hand=Hand())
     dealer.deal_card(person=dealer2)
     print(dealer2)

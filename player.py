@@ -7,8 +7,16 @@ from deck import Deck
 class Player(Person):
     """A player in the game of blackjack.
 
+    Methods
+    -------
+    take_turn:
+        Process the player's turn.
+    reset:
+        Reset the instance of the :class:`Player` class.
+
     .. note::
         Inherits methods and attributes from :class:`Person`.
+        Overrides :class:`Person`'s `reset` method.
     """
 
     def __init__(self, dealer: Dealer, hand: Hand | None = None) -> None:
@@ -22,16 +30,15 @@ class Player(Person):
         """
         super().__init__(hand=hand)
         self._dealer = dealer
-        self._stand = False
 
     def __str__(self) -> str:
         return "Player -> " + super().__str__()
 
-    def hit(self) -> None:
+    def _hit(self) -> None:
         """Process if the player is hitting."""
         self._dealer.deal_card(person=self)
-        
-    def stand(self) -> None:
+
+    def _stand(self) -> None:
         """Process if the player is standing."""
         self.in_play = False
 
@@ -57,9 +64,9 @@ class Player(Person):
             print()
             match decision:
                 case "1":
-                    self.hit()
+                    self._hit()
                 case "2":
-                    self.stand()
+                    self._stand()
                 case "3":
                     print_menu()
                     decision = ""
@@ -68,7 +75,8 @@ class Player(Person):
                     print()
                     decision = ""
 
-    def reset(self, dealer: Dealer) -> None: # type: ignore
+    def reset(self, dealer: Dealer) -> None:  # type: ignore
+        """Reset the instance of the :class:`Player` class."""
         super().reset()
         cards = self.clear_hand()
         if cards is not None:
