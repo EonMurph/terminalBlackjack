@@ -4,24 +4,26 @@ from card import Card
 
 
 class Person:
-    """A person in the game of blackjack.
+    """A person (player or dealer) in the game of blackjack.
 
     This class is not be instantiated,
     but instead to be inherited by the player and dealer classes.
 
     Attributes
     ----------
-    hand: Hand
-        The persons hand of cards.
     tally: int
         The total value of the person's hand.
+    in_play: bool
+        Whether or not the person is in play.
 
     Methods
     -------
         get_card(deck: Deck):
-            Get a card from the deck and add it to the hand.
+            Get a `Card` object from the deck and add it to the hand.
         clear_hand -> list[Card] | None:
             Remove and return all the cards in the current hand.
+        add_to_hand(card: Card):
+            Add a `Card` object to the hand.
 
     """
 
@@ -32,21 +34,25 @@ class Person:
         hand: Hand, optional
             (default None)
                 The hand the person holds.
+
+        .. Note::
+         Arg `hand` is only intended to be supplied during testing.
         """
         if hand is not None:
-            self.hand: Hand = hand
+            self._hand: Hand = hand
         else:
-            self.hand = Hand()
+            self._hand = Hand()
+        self.in_play = True
 
     @property
     def tally(self) -> int:
-        return self.hand.value
+        return self._hand.value
 
     def __str__(self) -> str:
-        person_string = " ".join(map(str, self.hand.cards))
+        person_string = " ".join(map(str, self._hand.cards))
         person_string += f" Tally: {self.tally}"
 
-        if self.hand.size == 0:
+        if self._hand.size == 0:
             return "The hand is empty."
 
         return person_string
@@ -60,10 +66,24 @@ class Person:
             A list of `Card` objects after being removed from the person's hand,
                 or `None` if hand is empty.
         """
-        cards: list[Card] = self.hand.cards
-        self.hand.clear_hand()
+        cards: list[Card] = self._hand.cards
+        self._hand.clear_hand()
 
         return cards
+
+    def add_to_hand(self, card: Card) -> None:
+        """Add cards to the hand.
+
+        Parameters
+        ----------
+        card: Card
+            The `Card` object to be added to the hand.
+        """
+
+        self._hand.add_to_hand(card)
+    
+    def reset(self) -> None:
+        self.in_play = True
 
 
 def main() -> None:

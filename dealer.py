@@ -8,6 +8,20 @@ class Dealer(Person):
     """A dealer in the game of blackjack.
 
     This class should only be instantiated once per blackjack game.
+
+    Methods
+    -------
+        get_card -> Card:
+            Get a card from the deck and add it to the hand.
+        deal_card(person: Person):
+            Deal cards from the deck.
+        shuffle_cards:
+            Shuffle the cards in the deck.
+        add_to_deck(cards: list[Card]):
+            Add a list of `Card` object to the deck.
+
+    .. Note::
+        Inherits methods and attributes from :class:`Person`.
     """
 
     def __init__(self, deck: Deck, hand: Hand | None = None) -> None:
@@ -16,12 +30,14 @@ class Dealer(Person):
         ----------
         deck: Deck
             The deck the dealer is maintaining.
-        hand: Hand, optional
-            (default None)
-                The dealer's hand.
+        Note
+            Takes all of :class:`Person`'s parameters.
         """
         super().__init__(hand=hand)
         self._deck: Deck = deck
+
+    def __str__(self) -> str:
+        return "Dealer -> " + super().__str__()
 
     def get_card(self) -> Card | None:
         """Get a card from the deck and add it to the hand.
@@ -37,7 +53,7 @@ class Dealer(Person):
 
         return cards
 
-    def deal_card(self, hand: Hand) -> None:
+    def deal_card(self, person: Person) -> None:
         """Deal cards from the deck.
 
         Parameters
@@ -45,12 +61,12 @@ class Dealer(Person):
         hand: Hand
             The hand to which the cards will be dealt.
         """
-        cards = self.get_card()
-        if cards is None:
+        card = self.get_card()
+        if card is None:
             print("The deck is empty.")
             return None
 
-        hand.add_to_hand(cards)
+        person.add_to_hand(card)
 
     def shuffle_cards(self) -> None:
         """Shuffle the deck of cards."""
@@ -72,6 +88,18 @@ class Dealer(Person):
         >>>     print("No cards in the player's hand.")
         """
         self._deck.add_to_deck(cards=cards)
+    
+    def take_turn(self) -> None:
+        if self.tally >= 17:
+            self.in_play = False
+        else:
+            self.deal_card(person=self)
+    
+    def reset(self) -> None:
+        super().reset()
+        cards = self.clear_hand()
+        if cards is not None:
+            self.add_to_deck(cards)
 
 
 def main() -> None:
@@ -80,6 +108,9 @@ def main() -> None:
     print(dealer)
     dealer.shuffle_cards()
     dealer.get_card()
+    dealer2 = Dealer(deck=deck, hand=Hand())
+    dealer.deal_card(person=dealer2)
+    print(dealer2)
     print(dealer)
 
 
